@@ -1,7 +1,7 @@
 go自举过程
 1.先用1.4版本go编译出dist
 
-2.通过dist，用1.4版本go编译出asm, compile, link
+2.通过dist，用1.4版本go编译出asm, compile, link, 可以看dist下面的buildtool.go
 3.再用上面编译出来的工具，编译出mini go -> go_bootstrap
 上面的2,3步由dist bootstrap 完成
 
