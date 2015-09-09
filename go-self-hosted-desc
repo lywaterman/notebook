@@ -1,8 +1,63 @@
 go自举过程
 1.先用1.4版本go编译出dist
 
-2.通过dist，用1.4版本go编译出asm, compile, link .. 编译链, 可以看dist下面的buildtool.go
-3.再用上面编译出来的工具，编译出新的编译链 和 go_bootstrap
+2.通过dist，用1.4版本go编译出asm, compile, link 编译链, 可以看dist下面的buildtool.go
+
+3.再用上面编译出来的工具，编译一些必须的库，然后编译出一个小型的min_go版本->go_bootstrap
+
+##### Building go_bootstrap for host, linux/amd64.
+runtime
+errors
+sync/atomic
+sync
+internal/singleflight
+io
+unicode
+unicode/utf8
+unicode/utf16
+bytes
+math
+strings
+strconv
+bufio
+sort
+container/heap
+encoding/base64
+syscall
+internal/syscall/windows/registry
+time
+internal/syscall/windows
+os
+reflect
+fmt
+encoding
+encoding/binary
+encoding/json
+flag
+path/filepath
+path
+io/ioutil
+log
+regexp/syntax
+regexp
+go/token
+go/scanner
+go/ast
+go/parser
+os/exec
+os/signal
+net/url
+text/template/parse
+text/template
+go/doc
+go/build
+hash
+crypto
+crypto/sha1
+debug/dwarf
+debug/elf
+cmd/go
+
 上面的2,3步由dist bootstrap 完成
 
-4.最后用go_bootstrap编译出所有的库和标准的go命令工具
+4.最后用go_bootstrap编译出所有的库和标准的go
