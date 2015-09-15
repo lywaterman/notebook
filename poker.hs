@@ -11,6 +11,10 @@ data PokerType = Single |  Pair | KingBomb | Triangle | FourBomb | ThreePlusOne 
                     Series | SeriesPair | SeriesTriangle | SeriesThreePlusOne | SeriesThreePlusTwo deriving (Show)
 data PokerList = PokerList {pokerList :: [Poker]} deriving (Show)
 
+fromStoAandS :: Int -> (String,Int)
+fromStoAandS c | c `mod` 5 == 0 = ("foo",c+1)
+               | otherwise = ("bar",c+1)
+
 --继承Eq，如果值相等，那么他们相等
 instance Eq Poker where
     x == y = (value x) == (value y)
@@ -20,13 +24,20 @@ instance Ord Poker where
                         then LT
                         else if ((value x) > (value y))
                             then GT
-                            else EQ
+                            else EQ 
 
 
 data PokerListState = PokerListState {
     pokerList1 :: [Poker],
     solePokerIndex :: [Int] --Index is up to pokerList
 } deriving (Show)
+
+--构建一个StateMonad
+getPokerListState :: PokerList -> State PokerListState Int
+getPokerListState x = state $ (\_ -> (0, PokerListState (sort $ pokerList x) []))
+
+changePokerListState :: PokerListState -> State PokerListState ()
+changePokerListState x = put x
 
 
 isKing :: Poker -> Bool
@@ -173,6 +184,9 @@ isSeriesTriangle x = let xv = sort $ pokerList x; len = (length xv); valuelist =
                            (checkTriangleList valuelist) == Just 1
                             then Left SeriesTriangle
                             else Right x
+
+--isSeriesThreePlusOne :: PokerList -> Either PokerType PokerList
+--isSeriesThreePlusOne x = 
 
 
 getPokerByGIndex :: Int -> Poker
